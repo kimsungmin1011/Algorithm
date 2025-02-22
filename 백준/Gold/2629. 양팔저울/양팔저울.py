@@ -1,32 +1,28 @@
-n = int(input())
-# dp[현재 추 인덱스][무게] = 가능(1), 불가능(0)
-dp = [[0 for _ in range(40001)] for _ in range(n + 1)]
-stone = list(map(int, input().split()))
+n = int(input().strip())
+stones = list(map(int, input().split()))
+m = int(input().strip())
+balls = list(map(int, input().split()))
 
-m = int(input())
-ball = list(map(int, input().split()))
+dp = [False] * 40001
+dp[0] = True  # 아무 추도 사용하지 않았을 때 무게 0은 True
 
-for i in range(1, n + 1):
-    c_stone = stone[i - 1]
-    dp[i][c_stone] = 1
-    for j in range(15001):
-        if dp[i - 1][j] == 1:
-            dp[i][j] = 1
-            if j + c_stone <= 15000:
-                dp[i][j + c_stone] = 1
-            if abs(j - c_stone) <= 15000:
-                dp[i][abs(j - c_stone)] = 1
+for stone in stones:
+    # 매 추를 추가할 때마다 새 상태를 복사해서 사용
+    new_dp = dp[:]
+    for w in range(40001):
+        if dp[w]:
+            # w 무게를 만들 수 있다면,
+            # 1) w + stone
+            if w + stone <= 40000:
+                new_dp[w + stone] = True
+            # 2) |w - stone|
+            diff = abs(w - stone)
+            new_dp[diff] = True
+    dp = new_dp  # 이번 추를 반영한 상태로 업데이트
 
-answer = []
-for j in ball:
-    flag = False
-    for i in range(1, n + 1):
-        if dp[i][j] == 1:
-            flag = True
-            answer.append("Y")
-            break
-    if flag == False:
-        answer.append("N")
-
-for i in answer:
-    print(i, end=" ")
+# m개의 구슬 무게를 확인하여 출력
+for weight in balls:
+    if weight <= 40000 and dp[weight]:
+        print("Y", end=" ")
+    else:
+        print("N", end=" ")
