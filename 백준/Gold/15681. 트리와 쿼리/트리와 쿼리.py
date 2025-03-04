@@ -22,10 +22,6 @@ for _ in range(q):
 
 
 def dfs(x):
-    if dp[x] != -1:
-        # 이미 탐색한 정점이면 dp값 반환
-        return dp[x]
-
     dp[x] = 1  # dp 기본값 1 (자기 자신을 정점으로 가짐)
 
     # 연결된 정점 DFS 탐색
