@@ -15,17 +15,15 @@ for _ in range(n - 1):
 # dp[u][0] → u가 얼리 어답터가 아닐 때, u의 서브트리에서 필요한 최소 얼리 어답터 수
 # dp[u][1] → u가 얼리 어답터일 때, u의 서브트리에서 필요한 최소 얼리 어답터 수
 dp = [[-1, -1] for _ in range(n + 1)]
-visited = [False] * (n + 1)
 
 
 # 트리 DP (DFS 활용)
 def dfs(node):
-    visited[node] = True
     dp[node][0] = 0  # node가 얼리 어답터가 아닐 때
     dp[node][1] = 1  # node가 얼리 어답터일 때
 
     for child in tree[node]:
-        if not visited[child]:  # 방문하지 않은 자식 노드 탐색
+        if dp[child][0] == -1 and dp[child][1] == -1:  # 방문하지 않은 자식 노드 탐색
             dfs(child)
             # 내가 얼리 어답터가 아니면, 자식은 반드시 얼리 어답터
             dp[node][0] += dp[child][1]
