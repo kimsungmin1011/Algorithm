@@ -1,11 +1,10 @@
-n=int(input())
+n = int(input())
 
-stack=list(map(int,input().split()))
-hap=0
-stack1=[]
+p = list(map(int, input().split()))
+p.sort()
 
-for i in sorted(stack):
-    stack1.append(i)
-    hap+=sum(stack1)
-    
-print(hap)
+answer = 0
+for i in range(n + 1):
+    answer += sum(p[:i])
+
+print(answer)
