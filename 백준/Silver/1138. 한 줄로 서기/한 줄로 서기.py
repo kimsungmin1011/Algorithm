@@ -1,13 +1,16 @@
 n = int(input())
-h = list(map(int, input().split()))
-ans = [0] * n
-for p in range(1, n+1):
-    t = h[p-1]
-    cnt = 0
-    for i in range(n):
-        if cnt == t and ans[i] == 0:
-            ans[i] = p
-            break
-        elif ans[i] == 0:
-            cnt += 1
-print(*ans)
+line = list(map(int, input().split()))
+rank = [0] * n
+
+for i in range(n):
+    number = line[i]
+    count = 0
+    for x in range(n):
+        if count == number:
+            if rank[x] == 0:
+                rank[x] = i + 1
+                break
+        if rank[x] == 0 or rank[x] > i + 1:
+            count += 1
+
+print(*rank)
