@@ -1,14 +1,13 @@
 # 입력
-N = input()
-
-# 자릿수를 리스트로 변환
-numbers = [int(n) for n in N]
+N = list(input())
+N = [int(i) for i in N]
 
 # 내림차순으로 정렬
-numbers.sort(reverse=True)
+N.sort(reverse=True)
 
 # 10의 배수 여부와 3의 배수 여부를 확인
-if 0 not in numbers or sum(numbers) % 3 != 0:
-    print(-1)
+if N[-1] == 0 and sum(N) % 3 == 0:
+    for i in N:
+        print(i, end='')
 else:
-    print(''.join(map(str, numbers)))
+    print(-1)
