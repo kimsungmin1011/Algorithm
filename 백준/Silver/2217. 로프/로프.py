@@ -1,15 +1,14 @@
 n = int(input())
+roaf = []
+for _ in range(n):
+    roaf.append(int(input()))
 
-rope = []
+roaf.sort(reverse=True)
+max_roaf = 0
+min_weight = int(1e9)
+
 for i in range(n):
-    rope.append(int(input()))
-rope.sort()
+    min_weight = min(min_weight, roaf[i])
+    max_roaf = max(max_roaf, min_weight * (i + 1))
 
-answer = 0
-
-while n > 0:
-    answer = max(answer, min(rope) * n)
-    rope.pop(0)
-    n -= 1
-
-print(answer)
+print(max_roaf)
