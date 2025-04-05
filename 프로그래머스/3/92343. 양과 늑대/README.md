@@ -1,10 +1,10 @@
 # [level 3] 양과 늑대 - 92343 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92343) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92343?gad_source=1&gclid=Cj0KCQjwqcO_BhDaARIsACz62vMaMOzq8BS673iAHXACg09JwxRol8TelY5Zg2VjYY57pX9nFR-aw38aAjfLEALw_wcB) 
 
 ### 성능 요약
 
-메모리: 9.38 MB, 시간: 149.30 ms
+메모리: 9.34 MB, 시간: 8724.94 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 04월 06일 00:39:32
+2025년 04월 06일 00:51:58
 
 ### 문제 설명
 
