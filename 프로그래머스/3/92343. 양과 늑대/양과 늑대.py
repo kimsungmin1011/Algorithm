@@ -1,5 +1,3 @@
-import copy
-
 max_sheep = 0
 
 
@@ -10,42 +8,42 @@ def solution(info, edges):
         graph[i].append(j)
         graph[j].append(i)
 
-    def dfs(index, sheep, wolf, visited_node, visited):
+    def dfs(index, sheep, wolf):
         global max_sheep
         max_sheep = max(max_sheep, sheep)
 
         for i in graph[index]:
             if info[i] == 0:
-                if i not in visited_node:
-                    new_visited_node = copy.deepcopy(visited_node)
-                    new_visited_node.add(i)
-                    new_visited = copy.deepcopy(visited)
-                    new_visited.add((i, sheep + 1, wolf))
-                    dfs(i, sheep + 1, wolf, new_visited_node, new_visited)
+                if i not in v_node:
+                    v_node.append(i)
+                    v.append((i, sheep + 1, wolf))
+                    dfs(i, sheep + 1, wolf)
+                    v_node.pop()
+                    v.pop()
                 else:
-                    if (i, sheep, wolf) not in visited:
-                        new_visited = copy.deepcopy(visited)
-                        new_visited.add((i, sheep, wolf))
-                        dfs(i, sheep, wolf, visited_node, new_visited)
+                    if (i, sheep, wolf) not in v:
+                        v.append((i, sheep, wolf))
+                        dfs(i, sheep, wolf)
+                        v.pop()
             else:
-                if i not in visited_node:
+                if i not in v_node:
                     if sheep > wolf + 1:
-                        new_visited_node = copy.deepcopy(visited_node)
-                        new_visited_node.add(i)
-                        new_visited = copy.deepcopy(visited)
-                        new_visited.add((i, sheep, wolf + 1))
-                        dfs(i, sheep, wolf + 1, new_visited_node, new_visited)
+                        v_node.append(i)
+                        v.append((i, sheep, wolf + 1))
+                        dfs(i, sheep, wolf + 1)
+                        v_node.pop()
+                        v.pop()
                 else:
-                    if (i, sheep, wolf) not in visited:
-                        new_visited = copy.deepcopy(visited)
-                        new_visited.add((i, sheep, wolf))
-                        dfs(i, sheep, wolf, visited_node, new_visited)
+                    if (i, sheep, wolf) not in v:
+                        v.append((i, sheep, wolf))
+                        dfs(i, sheep, wolf)
+                        v.pop()
 
-    v = set()
-    v.add((0, 1, 0))
-    v_node = set()
-    v_node.add(0)
+    v = []
+    v.append((0, 1, 0))
+    v_node = []
+    v_node.append(0)
 
-    dfs(0, 1, 0, v_node, v)
+    dfs(0, 1, 0)
 
     return max_sheep
