@@ -1,42 +1,24 @@
 from itertools import combinations
+from collections import Counter
 
 
 def solution(orders, course):
     answer = []
-    alphabet = set()
 
-    for i in orders:
-        for j in i:
-            alphabet.add(j)
+    for c in course:  # ➊ 각 코스 요리 길이에 대해
+        menu = []
+        for order in orders:  # 모든 주문에 대해
+            comb = combinations(
+                sorted(order), c
+            )  # ➋ 조합(combination)을 이용해 가능한 메뉴 구성을 모두 구함
+            menu += comb
 
-    # 음식 개수에 따라 조합 변경
-    for length in course:
-        # 현재 음식 개수에 따른 모든 코스 조합
-        food_combi = list(combinations(list(alphabet), length))
+        counter = Counter(menu)  # ➌ 각 메뉴 구성이 몇 번 주문되었는지 세어줌
+        if (
+            len(counter) != 0 and max(counter.values()) != 1
+        ):  # ➍ 가장 많이 주문된 구성이 1번 이상 주문된 경우
+            for m, cnt in counter.items():
+                if cnt == max(counter.values()):  # ➎ 가장 많이 주문된 구성을 찾아서
+                    answer.append("".join(m))  # ➏ 정답 리스트에 추가
 
-        course_can = {}  # 손님들 주문 횟수 카운트
-
-        for i in food_combi:
-            course_can["".join(i)] = 0
-
-        for customer in orders:
-            customer = set(customer)
-            for i in food_combi:
-                flag = True
-                for j in i:
-                    if j not in customer:
-                        flag = False
-                        break
-                if flag == True:
-                    course_can["".join(i)] += 1
-
-        max_value = max(course_can.values())
-        if max_value <= 1:
-            break
-
-        for i in course_can:
-            if course_can["".join(i)] == max_value:
-                answer.append("".join(sorted(i)))
-                # print("".join(sorted(i)))
-
-    return sorted(answer)
+    return sorted(answer)  # ➐ 오름차순 정렬 후 반환
