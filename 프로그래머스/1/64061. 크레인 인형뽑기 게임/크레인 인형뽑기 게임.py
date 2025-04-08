@@ -18,10 +18,8 @@ def solution(board, moves):
             stack.append(current)
         else:
             if stack[-1] == current:
-                answer += 1
-                while stack and stack[-1] == current:
-                    stack.pop()
-                    answer += 1
+                answer += 2
+                stack.pop()    
             else:
                 stack.append(current)
 
