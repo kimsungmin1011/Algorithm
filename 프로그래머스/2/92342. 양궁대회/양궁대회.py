@@ -1,5 +1,3 @@
-import copy
-
 answer = []
 max_score = -int(1e9)
 
@@ -32,7 +30,7 @@ def solution(n, info):
         for i in range(10, -1, -1):
             if score[i] >= 0:  # 아직 처리되지 않은 점수대라면
                 if left >= score[i] + 1:  # 어피치보다 1발 더 쏠 수 있다면
-                    apeach_num = copy.deepcopy(score[i])
+                    apeach_num = score[i]
                     left -= apeach_num + 1  # 해당 점수대를 이기는데 필요한 화살 사용
                     point += i  # 해당 점수 획득
                     current[10 - i] = apeach_num + 1  # 라이언의 화살 배분 기록
