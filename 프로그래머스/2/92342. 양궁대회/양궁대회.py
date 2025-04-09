@@ -68,4 +68,4 @@ def solution(n, info):
     if len(answer) == 0:
         return [-1]
     else:
-        return max(answer, key=lambda x: x[::-1])
+        return sorted(answer, key=lambda x: x[::-1])[-1]
