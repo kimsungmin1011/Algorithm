@@ -7,11 +7,9 @@ def solution(board):
     # (0, 1) => 위아래, (2, 3) => 좌우
     dx = [1, -1, 0, 0]
     dy = [0, 0, 1, -1]
+    n = len(board)
 
-    visited = [
-        [[int(1e9) for _ in range(2)] for _ in range(len(board[0]))]
-        for _ in range(len(board))
-    ]
+    visited = [[[int(1e9) for _ in range(2)] for _ in range(n)] for _ in range(n)]
     visited[0][0][0], visited[0][0][1] = 0, 0
 
     def bfs():
@@ -23,11 +21,7 @@ def solution(board):
             x, y, direction = queue.popleft()
             for i in range(4):
                 nx, ny = x + dx[i], y + dy[i]
-                if (
-                    0 <= nx < len(board)
-                    and 0 <= ny < len(board[0])
-                    and board[nx][ny] == 0
-                ):
+                if 0 <= nx < n and 0 <= ny < n and board[nx][ny] == 0:
                     if direction == 0:
                         if i == 0 or i == 1:
                             if visited[nx][ny][0] >= visited[x][y][0] + 100:
@@ -53,6 +47,6 @@ def solution(board):
 
     bfs()
 
-    answer = min(visited[len(board) - 1][len(board[0]) - 1])
+    answer = min(visited[n - 1][n - 1])
 
     return answer
