@@ -1,5 +1,6 @@
 import heapq
 
+
 def solution(operations):
     min_heap = []
     max_heap = []
@@ -19,25 +20,35 @@ def solution(operations):
         elif cmd == "D":
             if val == 1:
                 # 최대값 제거
-                while max_heap and not visited.get(max_heap[0][1], False):
+                while max_heap and (
+                    max_heap[0][1] not in visited or visited[max_heap[0][1]] == False
+                ):
                     heapq.heappop(max_heap)
+
                 if max_heap:
                     visited[max_heap[0][1]] = False
                     heapq.heappop(max_heap)
 
             elif val == -1:
                 # 최소값 제거
-                while min_heap and not visited.get(min_heap[0][1], False):
+                while min_heap and (
+                    min_heap[0][1] not in visited or visited[min_heap[0][1]] == False
+                ):
                     heapq.heappop(min_heap)
+
                 if min_heap:
                     visited[min_heap[0][1]] = False
                     heapq.heappop(min_heap)
 
     # 동기화: 아직 유효한 원소만 찾기
-    while min_heap and not visited.get(min_heap[0][1], False):
-        heapq.heappop(min_heap)
-    while max_heap and not visited.get(max_heap[0][1], False):
+    while max_heap and (
+        max_heap[0][1] not in visited or visited[max_heap[0][1]] == False
+    ):
         heapq.heappop(max_heap)
+    while min_heap and (
+        min_heap[0][1] not in visited or visited[min_heap[0][1]] == False
+    ):
+        heapq.heappop(min_heap)
 
     if not min_heap or not max_heap:
         return [0, 0]
