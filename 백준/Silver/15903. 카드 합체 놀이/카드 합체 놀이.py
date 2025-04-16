@@ -2,7 +2,7 @@ import heapq
 
 n, m = map(int, input().split())
 number = list(map(int, input().split()))
-number.sort()
+heapq.heapify(number)
 
 for _ in range(m):
     first = heapq.heappop(number)
