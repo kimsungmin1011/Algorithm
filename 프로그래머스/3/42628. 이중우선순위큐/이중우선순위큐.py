@@ -20,9 +20,7 @@ def solution(operations):
         elif cmd == "D":
             if val == 1:
                 # 최대값 제거
-                while max_heap and (
-                    max_heap[0][1] not in visited or visited[max_heap[0][1]] == False
-                ):
+                while max_heap and visited[max_heap[0][1]] == False:
                     heapq.heappop(max_heap)
 
                 if max_heap:
@@ -31,9 +29,7 @@ def solution(operations):
 
             elif val == -1:
                 # 최소값 제거
-                while min_heap and (
-                    min_heap[0][1] not in visited or visited[min_heap[0][1]] == False
-                ):
+                while min_heap and visited[min_heap[0][1]] == False:
                     heapq.heappop(min_heap)
 
                 if min_heap:
@@ -41,13 +37,9 @@ def solution(operations):
                     heapq.heappop(min_heap)
 
     # 동기화: 아직 유효한 원소만 찾기
-    while max_heap and (
-        max_heap[0][1] not in visited or visited[max_heap[0][1]] == False
-    ):
+    while max_heap and visited[max_heap[0][1]] == False:
         heapq.heappop(max_heap)
-    while min_heap and (
-        min_heap[0][1] not in visited or visited[min_heap[0][1]] == False
-    ):
+    while min_heap and visited[min_heap[0][1]] == False:
         heapq.heappop(min_heap)
 
     if not min_heap or not max_heap:
