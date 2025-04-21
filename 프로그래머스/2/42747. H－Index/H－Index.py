@@ -1,6 +1,6 @@
 def solution(citations):
-    citations = sorted(citations, reverse=True)
     answer = 0
+    citations = sorted(citations, reverse=True)
 
     for i in range(max(citations), -1, -1):
         count = 0
