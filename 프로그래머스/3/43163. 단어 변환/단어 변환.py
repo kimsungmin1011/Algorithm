@@ -1,31 +1,39 @@
-answer = int(1e9)
+from collections import deque
+
+answer = 0
 
 
 def solution(begin, target, words):
+    global answer
     if target not in words:
         return 0
 
     word_len = len(words[0])
     visited = [False] * len(words)
+    queue = deque()
+    queue.append((begin, 0))
 
-    def dfs(current, number):
+    def bfs():
         global answer
-        if current == target:
-            answer = min(answer, number)
-            return
+        while queue:
+            node, count = queue.popleft()
+            if node == target:
+                answer = count
+                return
 
-        for i in range(len(words)):
-            if visited[i] == True:
-                continue
-            count = 0
-            for j in range(word_len):
-                if current[j] != words[i][j]:
-                    count += 1
-            if count == 1:
-                visited[i] = True
-                dfs(words[i], number + 1)
-                visited[i] = False
+            for i in range(len(words)):
+                if visited[i] == True:
+                    continue
 
-    dfs(begin, 0)
+                diff = 0
+                for j in range(word_len):
+                    if node[j] != words[i][j]:
+                        diff += 1
+
+                if diff == 1:
+                    visited[i] = True
+                    queue.append((words[i], count + 1))
+
+    bfs()
 
     return answer
