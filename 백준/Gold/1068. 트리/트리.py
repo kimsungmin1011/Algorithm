@@ -11,7 +11,8 @@ start = []
 
 for i in range(len(parents)):
     if parents[i] == -1:
-        start.append(i)
+        if i != kill:
+            start.append(i)
         continue
     tree[parents[i]].append(i)
 
@@ -22,9 +23,6 @@ leaf_count = 0
 def dfs(node):
     global leaf_count
     flag = False
-
-    if node == kill:
-        return
 
     for i in tree[node]:
         if i == kill:
