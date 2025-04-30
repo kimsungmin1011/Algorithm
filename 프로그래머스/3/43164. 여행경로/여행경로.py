@@ -10,28 +10,29 @@ def solution(tickets):
             course[i].append(j)
             visited[i].append(False)
 
-    final_answer = []
+    total_route = []
     route = ["ICN"]
 
     def dfs(current):
         if current in course:
             for next in range(len(course[current])):
+                next_airport = course[current][next]
                 if visited[current][next] == False:
                     visited[current][next] = True
-                    route.append(course[current][next])
-                    dfs(course[current][next])
+                    route.append(next_airport)
+                    dfs(next_airport)
                     visited[current][next] = False
                     route.pop()
 
         flag = True
-        for next in visited:
-            if False in visited[next]:
+        for i in visited:
+            if False in visited[i]:
                 flag = False
                 break
 
         if flag == True:
-            final_answer.append(route[:])
+            total_route.append(route[:])
 
     dfs("ICN")
 
-    return sorted(final_answer)[0]
+    return sorted(total_route)[0]
