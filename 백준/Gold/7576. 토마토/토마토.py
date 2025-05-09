@@ -21,15 +21,15 @@ dy = [0, 0, -1, 1]
 last_day = 0
 
 while queue:
-    x, y, time = queue.popleft()
-    last_day = max(last_day, time)
+    x, y, day = queue.popleft()
+    last_day = day
 
     for i in range(4):
         nx, ny = x + dx[i], y + dy[i]
         if 0 <= nx < n and 0 <= ny < m:
             if visited[nx][ny] == False and graph[nx][ny] == 0:
                 visited[nx][ny] = True
-                queue.append((nx, ny, time + 1))
+                queue.append((nx, ny, day + 1))
 
 flag = True
 for i in range(n):
