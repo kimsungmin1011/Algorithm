@@ -45,20 +45,15 @@ while queue:
                 break
 
         elif 0 <= nfx < n and 0 <= nfy < m and 0 <= nsx < n and 0 <= nsy < m:
-            if graph[nfx][nfy] != "#" and graph[nsx][nsy] != "#":
-                if tuple(sorted(((nfx, nfy), (nsx, nsy)))) not in visited:
-                    visited.add(tuple(sorted(((nfx, nfy), (nsx, nsy)))))
-                    queue.append((*sorted(((nfx, nfy), (nsx, nsy))), time + 1))
+            if graph[nfx][nfy] == "#":
+                nfx, nfy = fx, fy
 
-            elif graph[nfx][nfy] != "#":
-                if tuple(sorted(((nfx, nfy), (sx, sy)))) not in visited:
-                    visited.add(tuple(sorted(((nfx, nfy), (sx, sy)))))
-                    queue.append((*sorted(((nfx, nfy), (sx, sy))), time + 1))
+            if graph[nsx][nsy] == "#":
+                nsx, nsy = sx, sy
 
-            elif graph[nsx][nsy] != "#":
-                if tuple(sorted(((fx, fy), (nsx, nsy)))) not in visited:
-                    visited.add(tuple(sorted(((fx, fy), (nsx, nsy)))))
-                    queue.append((*sorted(((fx, fy), (nsx, nsy))), time + 1))
+            if tuple(sorted(((nfx, nfy), (nsx, nsy)))) not in visited:
+                visited.add(tuple(sorted(((nfx, nfy), (nsx, nsy)))))
+                queue.append((*sorted(((nfx, nfy), (nsx, nsy))), time + 1))
 
 if flag == False:
     print(-1)
