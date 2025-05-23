@@ -1,28 +1,39 @@
-from sys import stdin
-from collections import deque
+import sys
 
-input = stdin.readline
+input = sys.stdin.readline
+sys.setrecursionlimit(10**5)
+
 n, start, end = map(int, input().split())
-adj_list = [[] for _ in range(n + 1)]
+visited = [False for _ in range(n + 1)]
+visited[start] = True
+graph = [[] for _ in range(n + 1)]
+
 for _ in range(n - 1):
     a, b, c = map(int, input().split())
-    adj_list[a].append((b, c))
-    adj_list[b].append((a, c))
+    graph[a].append((b, c))
+    graph[b].append((a, c))
+
+flag = False
 
 
-def solv():
-    visited = [False] * (n + 1)
-    q = deque([(start, 0, 0)])
-    visited[start] = True
-    while q:
-        now, total, max_cost = q.pop()
-        if now == end:
-            print(total - max_cost)
-            return
-        for nxt, cost in adj_list[now]:
-            if not visited[nxt]:
-                visited[nxt] = True
-                q.appendleft((nxt, total + cost, max(max_cost, cost)))
+def dfs(node):
+    global distance_list
+    if node == end:
+        if distance_list:
+            distance_list.sort()
+            distance_list.pop()
+            print(sum(distance_list))
+        else:
+            print(0)
+        exit()
+    for next, ndistance in graph[node]:
+        if visited[next] == False:
+            visited[next] = True
+            distance_list.append(ndistance)
+            dfs(next)
+            distance_list.pop()
+            visited[next] = False
 
 
-solv()
+distance_list = []
+dfs(start)
