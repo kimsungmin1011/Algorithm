@@ -1,18 +1,22 @@
-def dfs(n, sm, cnt):
-    global ans
-    # 종료조건(n에 관련) + 정답관련 처리
-    if n == N:
-        if sm == S and cnt > 0:
-            ans += 1
-        return
+n, s = map(int, input().split())
+number = list(map(int, input().split()))
+visited = [False for _ in range(len(number))]
 
-    # 하부함수 호출
-    dfs(n + 1, sm + lst[n], cnt + 1)  # 포함하는 경우
-    dfs(n + 1, sm, cnt)  # 포함하지 않는 경우
+answer = 0
 
 
-N, S = map(int, input().split())
-lst = list(map(int, input().split()))
-ans = 0
+def dfs(idx, count, total):
+    global answer
+    if count > 0 and total == s:
+        answer += 1
+
+    for i in range(idx, len(number)):
+        if visited[i] == False:
+            visited[i] = True
+            dfs(i + 1, count + 1, total + number[i])
+            visited[i] = False
+
+
 dfs(0, 0, 0)
-print(ans)
+
+print(answer)
