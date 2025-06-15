@@ -51,6 +51,7 @@ def bfs(a, b):
                 if graph[nx][ny] == 1 and visited1[nx][ny] == False:
                     # 새로운 대륙 방문
                     min_distance = min(min_distance, distance)
+                    return
 
 
 for i in range(n):
