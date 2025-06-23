@@ -7,9 +7,9 @@ def solution(n):
     daekaksunleft = [False] * (2 * n)  # \ 대각선 방문 배열 (범위: -n ~ n)
     yeol = [False] * n  # 열 방문 배열
 
-    def dfs(idx, count):
+    def dfs(idx):
         global answer
-        if count == n:
+        if idx == n:
             answer += 1
             return
 
@@ -23,12 +23,12 @@ def solution(n):
                 daekaksunleft[idx - j] = True
                 daekaksunright[idx + j] = True
                 yeol[j] = True
-                dfs(idx + 1, count + 1)
+                dfs(idx + 1)
                 # 백트래킹 원복
                 daekaksunleft[idx - j] = False
                 daekaksunright[idx + j] = False
                 yeol[j] = False
 
-    dfs(0, 0)
+    dfs(0)
 
     return answer
