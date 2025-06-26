@@ -28,8 +28,8 @@ def solution(numbers):
                 jungbok.add(current_nunmber)
                 answer += 1
 
-        if len(current_list) == len(numbers):
-            return
+        # if len(current_list) == len(numbers):
+        #     return
 
         for i in range(len(numbers)):
             if visited[i] == False:
