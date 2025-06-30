@@ -13,7 +13,7 @@ while start <= end:
         if tree >= cut:
             count += tree - cut
 
-    if cut > final_cut and count >= m:
+    if count >= m:
         final_cut = cut
         start = cut + 1
     else:
