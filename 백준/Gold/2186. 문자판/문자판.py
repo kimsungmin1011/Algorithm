@@ -28,7 +28,7 @@ dy = [0, 0, -1, 1]
 # dfs 함수 매개변수:
 #   idx: 현재 목표 문자열(goal)의 몇 번째 글자를 찾고 있는지 나타내는 인덱스
 #   x, y: 그래프 상에서 현재 탐색 중인 좌표
-def dfs(idx: int, x: int, y: int):
+def dfs(idx, x, y):
     # 베이스 케이스: 목표 문자열 끝까지 탐색했다면 남은 부분이 없으므로 1개의 유효 경로로 간주
     if idx == L:
         return 1
@@ -60,6 +60,7 @@ answer = 0
 for i in range(n):
     for j in range(m):
         if graph[i][j] == goal[0]:
-            answer += dfs(1, i, j)
+            dfs(1, i, j)
+            answer += dp[i][j][1]
 
 print(answer)
