@@ -3,34 +3,37 @@ from collections import deque
 
 def solution(maps):
     answer = []
-    maps = [list(i) for i in maps]
+    graph = []
+
+    for i in maps:
+        graph.append(list(i))
+
     dx = [-1, 1, 0, 0]
     dy = [0, 0, -1, 1]
 
-    visited = [[False for _ in range(len(maps[0]))] for _ in range(len(maps))]
+    visited = [[False for _ in range(len(graph[0]))] for _ in range(len(graph))]
 
     def bfs(a, b):
         queue = deque([(a, b)])
-        total = int(maps[a][b])
+        visited[a][b] = True
+        count = int(graph[a][b])
         while queue:
             x, y = queue.popleft()
             for i in range(4):
                 nx, ny = x + dx[i], y + dy[i]
-                if 0 <= nx < len(maps) and 0 <= ny < len(maps[0]):
-                    if visited[nx][ny] == False and maps[nx][ny] != "X":
+                if 0 <= nx < len(graph) and 0 <= ny < len(graph[0]):
+                    if graph[nx][ny] != "X" and visited[nx][ny] == False:
                         visited[nx][ny] = True
-                        total += int(maps[nx][ny])
                         queue.append((nx, ny))
-        return total
+                        count += int(graph[nx][ny])
+        answer.append(count)
 
-    for i in range(len(maps)):
-        for j in range(len(maps[0])):
-            if maps[i][j] != "X" and visited[i][j] == False:
-                visited[i][j] = True
-                island = bfs(i, j)
-                answer.append(island)
+    for i in range(len(graph)):
+        for j in range(len(graph[0])):
+            if graph[i][j] != "X" and visited[i][j] == False:
+                bfs(i, j)
 
-    if len(answer) == 0:
-        return [-1]
+    if answer:
+        return sorted(answer)
     else:
-        return list(sorted(answer))
+        return [-1]
