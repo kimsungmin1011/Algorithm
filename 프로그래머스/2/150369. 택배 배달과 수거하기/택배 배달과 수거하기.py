@@ -1,65 +1,37 @@
 def solution(cap, n, deliveries, pickups):
     """
-    모든 배달과 수거를 완료하는 데 필요한 최소 총 이동 거리를 계산하는 함수입니다.
-
-    매개변수:
-    cap (int): 트럭의 최대 적재 및 수거 용량입니다.
-    n (int): 위치(집)의 개수입니다.
-    deliveries (list of int): 각 위치별 배달해야 할 물품 개수입니다.
-    pickups (list of int): 각 위치별 수거해야 할 물품 개수입니다.
-
-    반환값:
-    int: 모든 배달과 수거를 완료하는 데 이동한 총 거리입니다.
+    택배 배달과 수거를 효율적으로 처리하여 최소 이동 거리를 계산합니다.
+    각 위치마다 배달할 상자 수(deliveries)와 수거할 상자 수(pickups)가 주어집니다.
+    트럭의 용량(cap)과 전체 집의 수(n), 그리고 각 집의 배달/수거량을 입력받아
+    모든 배달과 수거를 완료하는 데 필요한 총 이동 거리를 반환합니다.
+    - cap: 트럭의 최대 용량
+    - n: 집의 수
+    - deliveries: 각 집에 배달할 상자 수 리스트
+    - pickups: 각 집에서 수거할 상자 수 리스트
     """
-    answer = 0  # 이동한 총 거리를 누적합니다
-    di = n - 1  # 아직 배달이 남은 가장 먼 위치를 가리키는 포인터
-    pi = n - 1  # 아직 수거가 남은 가장 먼 위치를 가리키는 포인터
+    answer = 0  # 총 이동 거리를 누적합니다
+    d = 0  # 현재까지 누적된 배달해야 할 총 상자 수
+    p = 0  # 현재까지 누적된 수거해야 할 총 상자 수
+    pos = n - 1  # 마지막 왕복 기준이 될 가장 먼 위치 인덱스
+    # 가장 먼 위치부터 차례로 배달·수거량을 누적하며 처리 구간을 나눕니다
+    for i in range(n - 1, -1, -1):
+        # i번째 위치의 배달량과 수거량을 누적합니다
+        d += deliveries[i]
+        p += pickups[i]
 
-    # 모든 배달과 수거가 완료될 때까지 반복합니다
-    while di >= 0 or pi >= 0:
-        # 배달이 남아있는 다음 위치를 찾기 위해 di 포인터를 뒤로 이동합니다
-        # 이미 배달이 완료된 위치는 건너뜁니다
-        while di >= 0 and deliveries[di] == 0:
-            di -= 1
-        # 수거가 남아있는 다음 위치를 찾기 위해 pi 포인터를 뒤로 이동합니다
-        # 이미 수거가 완료된 위치는 건너뜁니다
-        while pi >= 0 and pickups[pi] == 0:
-            pi -= 1
+        # 누적된 물량이 트럭 용량을 초과하면 한 번 왕복 처리
+        while d > cap or p > cap:
+            # 한 번 왕복으로 cap만큼 배달·수거 처리
+            d -= cap
+            p -= cap
+            # 왕복 거리를 계산하여 누적
+            answer += 2 * (pos + 1)
+            # 다음 왕복 기준 위치를 현재 i로 갱신
+            pos = i
 
-        # 두 포인터가 모두 범위를 벗어나면 모든 배달과 수거가 완료된 것입니다
-        if di < 0 and pi < 0:
-            break
+    # 남은 물량이 있다면 마지막 왕복을 추가
+    if d > 0 or p > 0:
+        # 마지막 왕복 거리 누적
+        answer += 2 * (pos + 1)
 
-        # 배달 또는 수거가 필요한 가장 먼 위치를 결정합니다
-        # 위치는 0부터 시작하므로 +1을 해주고, 왕복이므로 2를 곱합니다
-        distance = max(di, pi) + 1
-        answer += distance * 2
-
-        # 이번 왕복에서 배달을 처리합니다
-        load = cap  # 현재 배달 가능한 용량
-        while di >= 0 and load > 0:
-            if deliveries[di] <= load:
-                # 해당 위치의 모든 물품을 배달하고 포인터를 뒤로 이동합니다
-                load -= deliveries[di]
-                deliveries[di] = 0
-                di -= 1
-            else:
-                # 가능한 만큼만 배달하고 남은 물품 개수를 갱신합니다
-                deliveries[di] -= load
-                load = 0
-
-        # 이번 왕복에서 수거를 처리합니다
-        free_space = cap  # 현재 수거 가능한 용량
-        while pi >= 0 and free_space > 0:
-            if pickups[pi] <= free_space:
-                # 해당 위치의 모든 물품을 수거하고 포인터를 뒤로 이동합니다
-                free_space -= pickups[pi]
-                pickups[pi] = 0
-                pi -= 1
-            else:
-                # 가능한 만큼만 수거하고 남은 물품 개수를 갱신합니다
-                pickups[pi] -= free_space
-                free_space = 0
-
-    # 모든 배달과 수거를 완료한 후 누적된 총 왕복 거리를 반환합니다
     return answer
