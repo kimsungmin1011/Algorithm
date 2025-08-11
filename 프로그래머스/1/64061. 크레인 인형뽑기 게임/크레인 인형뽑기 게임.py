@@ -3,24 +3,20 @@ def solution(board, moves):
     stack = []
 
     for i in moves:
-        current = 0
-
-        for i2 in range(len(board)):
-            if board[i2][i - 1] != 0:
-                current = board[i2][i - 1]
-                board[i2][i - 1] = 0
+        number = -1
+        for j in range(len(board)):
+            if board[j][i - 1] != 0:
+                number = board[j][i - 1]
+                board[j][i - 1] = 0
                 break
 
-        if current == 0:
+        if number == -1:
             continue
 
-        if len(stack) == 0:
-            stack.append(current)
+        if stack and number == stack[-1]:
+            stack.pop()
+            answer += 2
         else:
-            if stack[-1] == current:
-                answer += 2
-                stack.pop()    
-            else:
-                stack.append(current)
+            stack.append(number)
 
     return answer
