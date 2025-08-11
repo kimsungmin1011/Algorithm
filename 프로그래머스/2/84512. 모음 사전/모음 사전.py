@@ -1,30 +1,19 @@
-alphabet = ["A", "E", "I", "O", "U"]
+moum = ["A", "E", "I", "O", "U"]
 
-current_word = []
-total_word = []
+array_list = []
 
 
-def dfs(count):
-    if current_word:
-        total_word.append("".join(current_word))
-
-    if count == 5:
+def dfs(idx, array):
+    if idx == 6:
         return
 
+    array_list.append(array)
+
     for i in range(5):
-        current_word.append(alphabet[i])
-        dfs(count + 1)
-        current_word.pop()
+        dfs(idx + 1, array + moum[i])
 
 
 def solution(word):
-    answer = 1
-    dfs(0)
-
-    for i in total_word:
-        if i == word:
-            break
-        else:
-            answer += 1
-
-    return answer
+    for i in range(5):
+        dfs(1, moum[i])
+    return array_list.index(word) + 1
