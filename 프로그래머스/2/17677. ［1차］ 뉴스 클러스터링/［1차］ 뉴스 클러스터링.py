@@ -1,25 +1,38 @@
 def solution(str1, str2):
+    answer = 0
     str1 = str1.lower()
     str2 = str2.lower()
-    answer = 0
+
     hapdict = {}
     hapdict2 = {}
     kyodict = {}
     kyodict2 = {}
 
     for i in range(2, len(str1) + 1):
-        arr = "".join([i for i in str1[i - 2 : i] if i.isalpha()])
-        if len(arr) != 2:
+        arr = str1[i - 2 : i]
+        flag = True
+        for i in arr:
+            if i.isalpha() == False:
+                flag = False
+                break
+        if flag == False:
             continue
+
         if arr not in hapdict:
             hapdict[arr] = 1
         else:
             hapdict[arr] += 1
 
     for i in range(2, len(str2) + 1):
-        arr = "".join([i for i in str2[i - 2 : i] if i.isalpha()])
-        if len(arr) != 2:
+        arr = str2[i - 2 : i]
+        flag = True
+        for i in arr:
+            if i.isalpha() == False:
+                flag = False
+                break
+        if flag == False:
             continue
+
         if arr not in hapdict2:
             hapdict2[arr] = 1
         else:
@@ -37,18 +50,30 @@ def solution(str1, str2):
             final_hap[i] = hapdict2[i]
 
     for i in range(2, len(str1) + 1):
-        arr = "".join([i for i in str1[i - 2 : i] if i.isalpha()])
-        if len(arr) != 2:
+        arr = str1[i - 2 : i]
+        flag = True
+        for i in arr:
+            if i.isalpha() == False:
+                flag = False
+                break
+        if flag == False:
             continue
+
         if arr not in kyodict:
             kyodict[arr] = 1
         else:
             kyodict[arr] += 1
 
     for i in range(2, len(str2) + 1):
-        arr = "".join([i for i in str2[i - 2 : i] if i.isalpha()])
-        if len(arr) != 2:
+        arr = str2[i - 2 : i]
+        flag = True
+        for i in arr:
+            if i.isalpha() == False:
+                flag = False
+                break
+        if flag == False:
             continue
+
         if arr not in kyodict2:
             kyodict2[arr] = 1
         else:
@@ -65,6 +90,5 @@ def solution(str1, str2):
         answer = 65536
     else:
         answer = 0
-    # print(str1, str2)
-    # print(final_hap, final_kyo)
+
     return answer
