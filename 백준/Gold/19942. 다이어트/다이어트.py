@@ -15,10 +15,8 @@ def dfs(idx, p, f, s, v, cost):
     global min_cost, min_ingredients
     if p >= mp and f >= mf and s >= ms and v >= mv:
         if min_cost > cost:
-            min_ingredients = [ingredients[:]]
+            min_ingredients = ingredients[:]
             min_cost = cost
-        elif min_cost == cost:
-            min_ingredients.append(ingredients[:])
         return
 
     for i in range(idx, n):
@@ -38,6 +36,6 @@ dfs(0, 0, 0, 0, 0, 0)
 
 if min_cost != int(1e9):
     print(min_cost)
-    print(*sorted(min_ingredients)[0])
+    print(*min_ingredients)
 else:
     print(-1)
