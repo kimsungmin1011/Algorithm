@@ -1,39 +1,29 @@
 from collections import deque
 
-answer = 0
-
+alpha=['q','w','e','r','t','y','u','i','o','p','a','s','d','f','g','h','j','k','l','z','x','c','v','b','n','m']
 
 def solution(begin, target, words):
-    global answer
-    if target not in words:
-        return 0
-
-    word_len = len(words[0])
-    visited = [False] * len(words)
-    queue = deque()
-    queue.append((begin, 0))
-
+    visited=set()
+    visited.add(tuple(begin))
+    
     def bfs():
-        global answer
+        queue=deque([(begin, 0)])
         while queue:
-            node, count = queue.popleft()
-            if node == target:
-                answer = count
-                return
-
-            for i in range(len(words)):
-                if visited[i] == True:
-                    continue
-
-                diff = 0
-                for j in range(word_len):
-                    if node[j] != words[i][j]:
-                        diff += 1
-
-                if diff == 1:
-                    visited[i] = True
-                    queue.append((words[i], count + 1))
-
-    bfs()
-
+            word,t=queue.popleft()
+            if word == target:
+                return t
+            
+            for i in range(len(list(begin))):
+                nword=list(word)
+                for j in range(len(alpha)):
+                    nword[i]=alpha[j]
+                    
+                    if tuple(nword) not in visited and "".join(nword) in words:
+                        visited.add(tuple(nword))
+                        queue.append(("".join(nword), t + 1))
+                        
+        return 0
+    
+    answer=bfs()
+    
     return answer
