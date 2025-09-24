@@ -17,7 +17,7 @@ def dfs(count, idx, start, cost):
         return
 
     for i in range(n):
-        if i != start and visited[i] == False and graph[idx][i] != 0:
+        if visited[i] == False and graph[idx][i] != 0:
             visited[i] = True
             dfs(count + 1, i, start, cost + graph[idx][i])
             visited[i] = False
