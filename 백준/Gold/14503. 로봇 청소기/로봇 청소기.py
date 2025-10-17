@@ -13,23 +13,22 @@ for i in range(n):
 dx = [-1, 0, 1, 0]
 dy = [0, -1, 0, 1]
 
-if d % 2 == 0:
-    queue = deque([(r, c, d, 1)])
+queue = deque()
+
+if d == 1:
+    queue.append((r, c, 3, 1))
+elif d == 3:
+    queue.append((r, c, 1, 1))
 else:
-    if d == 1:
-        queue = deque([(r, c, 3, 1)])
-    else:
-        queue = deque([(r, c, 1, 1)])
+    queue.append((r, c, d, 1))
 
 visited[r][c] = True
-
-max_count = 1
+answer = 1
 
 while queue:
     x, y, cd, count = queue.popleft()
-    max_count = max(max_count, count)
-
     flag = False
+
     # 인접 4칸 중에 아직 방문 안 한 칸 있으면 전진
     for i in range(1, 5):
         nd = (cd + i) % 4
@@ -51,5 +50,7 @@ while queue:
                 queue.append((nx, ny, cd, count + 1))
             else:
                 queue.append((nx, ny, cd, count))
+        else:
+            answer = count
 
-print(max_count)
+print(answer)
