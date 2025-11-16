@@ -19,11 +19,11 @@ def dfs(idx):
 
     for i in range(1, 4):
         number.append(str(i))
-        l = len(number) - 1
+        l = len(number)
         flag = True
 
-        for j in range(len(number) // 2):
-            if number[l - 2 * j - 1 : l - j] == number[l - j :]:
+        for j in range(1, len(number) // 2 + 1):
+            if number[l - 2 * j : l - j] == number[l - j :]:
                 flag = False
                 break
 
