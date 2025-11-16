@@ -1,20 +1,38 @@
 n = int(input())
 
-result = []
+number = []
+answer = 0
+
+flag2 = False
 
 
-def dfs(count, array, value):
-    for i in range(len(array)):
-        for r in range(1, count // 2 + 1):
-            if array[i : i + r] == array[i + r : i + 2 * r]:
-                return
+def dfs(idx):
+    global flag2, answer
 
-    if count == n:
-        print(value)
-        exit()
+    if flag2 == True:
+        return
+
+    if idx == n:
+        answer = int("".join(number))
+        flag2 = True
+        return
 
     for i in range(1, 4):
-        dfs(count + 1, array + [i], value * 10 + i)
+        number.append(str(i))
+        l = len(number) - 1
+        flag = True
+
+        for j in range(len(number) // 2):
+            if number[l - 2 * j - 1 : l - j] == number[l - j :]:
+                flag = False
+                break
+
+        if flag == True:
+            dfs(idx + 1)
+
+        number.pop()
 
 
-dfs(0, [], 0)
+dfs(0)
+
+print(answer)
