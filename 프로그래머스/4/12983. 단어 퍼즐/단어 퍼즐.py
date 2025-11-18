@@ -3,7 +3,7 @@ def solution(strs, t):
     n = len(t)
     
     sset = set(strs)              # strs -> set 으로 (O(1) 조회)
-    dp = [INF] * (n + 1)
+    dp = [INF] * (n + 1)          # t의 앞 i글자를 만드는 데 필요한 최소 조각 수
     dp[0] = 0                     # 0 ~ i-1까지 만든 최소 조각 수
 
     for i in range(1, n + 1):
