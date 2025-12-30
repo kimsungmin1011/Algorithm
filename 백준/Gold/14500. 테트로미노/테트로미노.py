@@ -4,6 +4,7 @@ graph = []
 for i in range(n):
     graph.append(list(map(int, input().split())))
 
+mx = max(map(max, graph))
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
@@ -13,6 +14,7 @@ visited = [[False for _ in range(m)] for _ in range(n)]
 max_value = 0
 
 
+# ㅗ, ㅜ, ㅏ, ㅓ 탐색용 함수
 def fuckyou(x, y):
     a, b, c, d, e, f, g, h = 0, 0, 0, 0, 0, 0, 0, 0
     if x + 1 < n and y + 2 < m:
@@ -37,6 +39,12 @@ def fuckyou(x, y):
 
 def dfs(x, y, z, count):
     global max_value
+
+    # 가지치기
+    if z + (4 - count) * mx <= max_value:
+        return
+
+    # 종료 조건
     if count == 4:
         max_value = max(max_value, z)
         return
