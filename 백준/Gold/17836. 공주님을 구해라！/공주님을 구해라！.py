@@ -1,51 +1,44 @@
 from collections import deque
 
 n, m, t = map(int, input().split())
-
 graph = []
-for _ in range(n):
+
+for i in range(n):
     graph.append(list(map(int, input().split())))
 
-visited = [[False for _ in range(m)] for _ in range(n)]
-visited[0][0] = True
+visited = [[[int(1e9) for _ in range(2)] for _ in range(m)] for _ in range(n)]
+queue = deque([(0, 0, 0, 0)])
+visited[0][0][0] = 0
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
-min_answer = int(1e9)
+flag = False
+while queue:
+    x, y, time, check = queue.popleft()
 
+    if time > t:
+        break
 
-# 시작점에서 종점까지 최단거리 BFS
-def bfs():
-    global min_answer
-    queue = deque([(0, 0, 0)])
-    while queue:
-        x, y, d = queue.popleft()
+    if x == n - 1 and y == m - 1:
+        flag = True
+        print(visited[x][y][check])
+        break
 
-        # t시간을 초과하면 넘김
-        if d > t:
-            continue
+    if graph[x][y] == 2:
+        check = 1
+        visited[x][y][1] = visited[x][y][0]
 
-        # 걸어서 종점 도착
-        if x == n - 1 and y == m - 1:
-            min_answer = min(min_answer, d)
+    for i in range(4):
+        nx, ny = x + dx[i], y + dy[i]
+        if (
+            0 <= nx < n
+            and 0 <= ny < m
+            and ((check == 0 and graph[nx][ny] != 1) or check == 1)
+            and visited[nx][ny][check] > visited[x][y][check] + 1
+        ):
+            visited[nx][ny][check] = visited[x][y][check] + 1
+            queue.append((nx, ny, time + 1, check))
 
-        # 칼 먹으면 종점까지 맨해튼(직선) 거리로 계산하기
-        if graph[x][y] == 2:
-            if t - d >= abs(n - 1 - x) + abs(m - 1 - y):
-                min_answer = min(min_answer, d + abs(n - 1 - x) + abs(m - 1 - y))
-
-        for i in range(4):
-            nx, ny = x + dx[i], y + dy[i]
-            if 0 <= nx < n and 0 <= ny < m and visited[nx][ny] == False:
-                if graph[nx][ny] != 1:
-                    visited[nx][ny] = True
-                    queue.append((nx, ny, d + 1))
-
-    if min_answer == int(1e9):
-        return "Fail"
-    else:
-        return min_answer
-
-
-print(bfs())
+if flag == False:
+    print("Fail")
