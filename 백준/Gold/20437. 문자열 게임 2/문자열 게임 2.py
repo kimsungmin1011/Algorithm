@@ -31,7 +31,7 @@ for _ in range(t):
             # 연속 k개 묶음을 모두 확인
             for i in range(len(arr) - k + 1):
                 # 양 끝 인덱스 차이 (예: 2~4면 4-2=2)
-                length = arr[i + k - 1] - arr[i]
+                length = arr[i + k - 1] - arr[i] + 1
 
                 # 최소/최대 갱신 (아직 +1 안 한 상태)
                 min_len = min(min_len, length)
@@ -41,6 +41,4 @@ for _ in range(t):
     if max_len == -1:
         print(-1)
     else:
-        # 인덱스 차이 -> 실제 문자열 길이로 바꾸기 위해 +1
-        # 예: 인덱스 2~4는 글자 수 3이므로 (4-2)+1
-        print(min_len + 1, max_len + 1)
+        print(min_len, max_len)
