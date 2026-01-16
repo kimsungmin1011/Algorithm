@@ -38,7 +38,7 @@ for _ in range(t):
                 max_len = max(max_len, length)
 
     # 3) 후보가 하나도 없으면 -1
-    if min_len == 1e9:
+    if max_len == -1:
         print(-1)
     else:
         # 인덱스 차이 -> 실제 문자열 길이로 바꾸기 위해 +1
