@@ -3,19 +3,27 @@ paper = [[0 for _ in range(m)] for _ in range(n)]
 
 
 def check(x, y, current):
-    for i in range(n - x + 1):
-        for j in range(m - y + 1):
-            flag2 = True
-            for i2 in range(i, i + x):
-                for j2 in range(j, j + y):
-                    if current[i2 - i][j2 - j] == 1 and paper[i2][j2] != 0:
-                        flag2 = False
-            if flag2 == True:
-                for i2 in range(i, i + x):
-                    for j2 in range(j, j + y):
-                        if current[i2 - i][j2 - j] == 1:
-                            paper[i2][j2] = 1
+    for i in range(n - x + 1):  # 종이에서 스티커 좌상단 row
+        for j in range(m - y + 1):  # 종이에서 스티커 좌상단 col
+            ok = True
+
+            # 1) 충돌 검사
+            for sr in range(x):  # 스티커 row
+                for sc in range(y):  # 스티커 col
+                    if current[sr][sc] == 1 and paper[i + sr][j + sc] != 0:
+                        ok = False
+                        break
+                if not ok:
+                    break
+
+            # 2) 붙이기
+            if ok:
+                for sr in range(x):
+                    for sc in range(y):
+                        if current[sr][sc] == 1:
+                            paper[i + sr][j + sc] = 1
                 return True
+
     return False
 
 
