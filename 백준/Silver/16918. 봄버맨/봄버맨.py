@@ -14,20 +14,11 @@ dx = [0, -1, 1, 0, 0]
 dy = [0, 0, 0, -1, 1]
 
 while current <= n:
-    current_plus = set()
-    # 폭탄 설치 (봄버맨은 짝수 시간에만 폭탄 설치)
-    if current != 0 and current % 2 == 0:
-        for i in range(r):
-            for j in range(c):
-                if graph[i][j] == ".":
-                    current_plus.add((i, j))
-                    graph[i][j] = "O"
-
+    # 폭탄 설치한 곳 시간 + 1 & 폭발 (이번에 새로 설치한 곳 제외)
     bye = set()
-    # 폭탄 설치한 곳 시간 + 1 (이번에 새로 설치한 곳 제외)
     for i in range(r):
         for j in range(c):
-            if (i, j) not in current_plus and graph[i][j] == "O":
+            if graph[i][j] == "O":
                 time[i][j] += 1
                 if time[i][j] == 3:
                     for k in range(5):
@@ -35,9 +26,17 @@ while current <= n:
                         if 0 <= nx < r and 0 <= ny < c:
                             bye.add((nx, ny))
 
+    # 한번에 폭발
     for x, y in list(bye):
         graph[x][y] = "."
         time[x][y] = 0
+
+    # 폭탄 설치 (봄버맨은 짝수 시간에만 폭탄 설치)
+    if current != 0 and current % 2 == 0:
+        for i in range(r):
+            for j in range(c):
+                if graph[i][j] == ".":
+                    graph[i][j] = "O"
 
     current += 1
 
