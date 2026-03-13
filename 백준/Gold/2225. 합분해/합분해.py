@@ -1,18 +1,17 @@
+# 0부터 N까지의 정수 K개를 더해서 합이 N이 되는 경우의 수
 n, k = map(int, input().split())
+# dp[k][n] => 정수 K개를 더해서 합이 N이 되는 경우의 수
+dp = [[0 for _ in range(n + 1)] for _ in range(k + 1)]
 
-dp = [[0] * (k + 1) for _ in range(n + 1)]
-
-# 합이 0이면, 어떤 k개든 "모두 0"으로 만드는 1가지 방법만 있음
-for j in range(1, k + 1):
-    dp[0][j] = 1
-
-# 정수 1개만 사용할 때, 합 i를 만드는 방법은 (i) 한 가지 뿐
+# 정수 1개로 i 만드는 경우의 수
 for i in range(n + 1):
-    dp[i][1] = 1
+    dp[1][i] = 1
 
+for i in range(2, k + 1):
+    for j in range(n + 1):
+        for t in range(j + 1):
+            # 정수 i개 더해서 j가 되는 경우의 수 += 정수 i-1개 더해 j-t가 되는 경우의 수
+            # t는 0~j
+            dp[i][j] += dp[i - 1][j - t]
 
-for i in range(1, n + 1):
-    for j in range(1, k + 1):
-        dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
-
-print(dp[n][k] % 1000000000)
+print(dp[k][n] % 1000000000)
