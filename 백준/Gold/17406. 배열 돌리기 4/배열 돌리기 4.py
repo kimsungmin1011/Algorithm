@@ -2,6 +2,7 @@ import copy, sys
 from itertools import permutations
 
 sys.setrecursionlimit(10**5)
+input = sys.stdin.readline
 
 n, m, k = map(int, input().split())
 original_graph = []
