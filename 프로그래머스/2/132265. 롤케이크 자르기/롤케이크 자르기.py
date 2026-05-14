@@ -11,8 +11,8 @@ def solution(topping):
         else:
             right[t] += 1
 
-    # 마지막 위치 뒤에서는 자를 수 없으므로 len(topping) - 1까지만 확인
-    for i in range(len(topping) - 1):
+    # 순서대로 잘라보기
+    for i in range(len(topping)):
         now = topping[i]
 
         # 현재 토핑을 왼쪽으로 이동
