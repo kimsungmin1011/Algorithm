@@ -1,10 +1,10 @@
 # [level 3] 디스크 컨트롤러 - 42627 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42627?gad_source=1&gad_campaignid=23716289893&gbraid=0AAAAAC_c4nC8U0gSsTd3-xA7YcXRxo7rV&gclid=Cj0KCQjw77bPBhC_ARIsAGAjjV9_NNT4EpBbo6Z6w7QTc6fVzAXSKRcDIL8oujzQueF0lxsGlpZRjygaAk7_EALw_wcB) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42627?gad_source=1&gad_campaignid=23780696581&gbraid=0AAAAAC_c4nD2dR3GCjVBEePyVOWq0Ygxu&gclid=CjwKCAjw8arQBhB9EiwAfIKdQp2hYsUhQIATUwU0SbUwoSXpmnI_8m1j3yHEAxw_brUrj9NNzgxVExoCJwkQAvD_BwE) 
 
 ### 성능 요약
 
-메모리: 9.29 MB, 시간: 2.14 ms
+메모리: 9.21 MB, 시간: 0.46 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 04월 27일 17:25:20
+2026년 05월 18일 19:26:33
 
 ### 문제 설명
 
