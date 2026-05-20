@@ -1,18 +1,25 @@
 def solution(number, k):
-    stack = []  # 결과를 만들어갈 스택
+    origin_k = k
+    stack = []
+    index = 0
 
-    for num in number:
-        # 스택 top보다 현재 숫자가 더 크면, top을 버린다 (k번까지)
-        # → 앞자리를 더 큰 수로 만들수록 전체 수가 커지기 때문
-        while stack and k > 0 and stack[-1] < num:
-            stack.pop()
+    while index < len(number) and k >= 0:
+        if not stack:
+            stack.append(number[index])
+            index += 1
+
+        while index < len(number) and stack[-1] >= number[index]:
+            stack.append(number[index])
+            index += 1
+
+        if index >= len(number) or k <= 0:
+            break
+
+        while k > 0 and stack and number[index] > stack[-1]:
+            stack.pop(-1)
             k -= 1
-        stack.append(num)
 
-    # 끝까지 다 돌았는데도 제거할 횟수(k)가 남아있다면
-    # → 남은 숫자들이 내림차순/같음 상태라는 뜻이므로 뒤에서부터 잘라낸다
-    # 예: "54321", k=2 → "543"
-    if k > 0:
-        stack = stack[:-k]
-
-    return "".join(stack)
+    answer = ("").join(stack) + number[index:]
+    if len(answer) > len(number) - origin_k:
+        answer = answer[: len(number) - origin_k]
+    return answer
