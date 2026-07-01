@@ -1,39 +1,34 @@
 def solution(tickets):
-    course = {}  # 출발지 → 도착지 리스트
-    visited = {}  # 출발지 → 도착지별 방문 여부 (항공권 기준!)
-
-    for i, j in tickets:
-        if i not in course:
-            course[i] = [j]
-            visited[i] = [False]
+    answer = []
+    # tickets.sort()
+    visited=[False for _ in range(len(tickets))] # 티켓 사용했는지
+    
+    route={} # 각 공항에서 갈 수 있는 곳
+    for i in range(len(tickets)):
+        s,d=tickets[i][0],tickets[i][1]
+        if s not in route:
+            route[s]=[i] # 티켓 번호 저장
         else:
-            course[i].append(j)
-            visited[i].append(False)
-
-    total_route = []
-    route = ["ICN"]
-
-    def dfs(current):
-        if current in course:
-            for next in range(len(course[current])):
-                next_airport = course[current][next]
-                if visited[current][next] == False:
-                    visited[current][next] = True        # 항공권 사용 체크
-                    route.append(next_airport)           # 경로에 추가
-                    dfs(next_airport)                    # 다음 공항 탐색
-                    visited[current][next] = False       # 항공권 사용 복구
-                    route.pop()                          # 경로 복구
-
-        # 모든 항공권을 사용했는지 확인
-        flag = True
-        for i in visited:
-            if False in visited[i]:                      # 하나라도 안 쓴 항공권이 있다면
-                flag = False
-                break
-
-        if flag == True:
-            total_route.append(route[:])                 # 완성된 경로 저장
-
-    dfs("ICN")
-
-    return sorted(total_route)[0]                        # 사전순 가장 앞선 경로 반환
+            route[s].append(i)
+    
+    way=["ICN"]
+    def dfs(current,count):
+        flag=False
+        if current in route:
+            #지금 공항에서 쓸 수 있는 티켓 탐색
+            for ticket in route[current]:
+                if visited[ticket]==False:
+                    flag=True
+                    visited[ticket]=True
+                    next=tickets[ticket][1] # 티켓에 나와있는 다음 목적지
+                    way.append(next)
+                    dfs(next,count+1)
+                    visited[ticket]=False
+                    way.pop()
+                    
+        if count==len(tickets):
+            answer.append(way[:])
+        
+    dfs("ICN",0)
+            
+    return sorted(answer)[0]
