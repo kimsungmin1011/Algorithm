@@ -1,19 +1,23 @@
 moum = ["A", "E", "I", "O", "U"]
 
 array_list = []
+array=[]
 
-
-def dfs(idx, array):
-    if idx == 6:
+def dfs(idx):
+    if idx!=0:
+        array_list.append("".join(array[:]))
+    
+    if idx == 5:
         return
 
-    array_list.append(array)
-
     for i in range(5):
-        dfs(idx + 1, array + moum[i])
+        array.append(moum[i])
+        dfs(idx + 1)
+        array.pop()
 
 
 def solution(word):
-    for i in range(5):
-        dfs(1, moum[i])
+    dfs(0)
     return array_list.index(word) + 1
+
+print(solution("AAAE"))
