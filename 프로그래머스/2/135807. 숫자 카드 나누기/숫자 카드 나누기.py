@@ -1,7 +1,9 @@
-from math import gcd
-
-
 def solution(arrayA, arrayB):
+    def gcd(a, b):
+        while b != 0:
+            a, b = b, a % b
+        return a
+
     def get_gcd(numbers):
         result = numbers[0]
 
