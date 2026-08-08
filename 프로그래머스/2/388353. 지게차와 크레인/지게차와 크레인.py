@@ -1,61 +1,92 @@
 from collections import deque
 
+
 def solution(storage, requests):
-    storage=[list(line) for line in storage]
-    answer = 0
-    dx=[-1,1,0,0]
-    dy=[0,0,-1,1]
-    n=len(storage)
-    m=len(storage[0])
-    
-    # 매 턴마다 끝자락에서 탐색 시작
-    def bfs(visited,x,y,pocket,value):
-        queue=deque([(x,y)])
+    original_n = len(storage)
+    original_m = len(storage[0])
+
+    # 창고 바깥에 빈 공간('x')을 한 겹 추가한다.
+    #
+    # ABC          xxxxx
+    # DEF    ->    xABCx
+    # GHI          xDEFx
+    #              xGHIx
+    #              xxxxx
+    storage = (
+        [['x'] * (original_m + 2)]
+        + [['x'] + list(line) + ['x'] for line in storage]
+        + [['x'] * (original_m + 2)]
+    )
+
+    # 바깥 공간을 추가한 후의 창고 크기
+    n = original_n + 2
+    m = original_m + 2
+
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+
+    def bfs(visited, pocket, value):
+        # (0, 0)은 새로 추가한 바깥쪽 빈 공간이므로
+        # 항상 외부에서 탐색을 시작할 수 있다.
+        queue = deque([(0, 0)])
+        visited[0][0] = True
+
         while queue:
-            cx,cy=queue.popleft()
-            for i in range(4):
-                nx,ny=cx+dx[i],cy+dy[i]
-                # 다음값이 현재값과 같거나 빈 공간이라면
-                if 0<=nx<n and 0<=ny<m and visited[nx][ny]==False:
-                    visited[nx][ny]=True
-                    if storage[nx][ny]==value:
-                        pocket.append((nx,ny))
-                    elif storage[nx][ny]=='x':
-                        queue.append((nx,ny))
-        
-    
-    for i in range(len(requests)):
-        pocket=[]
-        visited = [[False for _ in range(m)] for _ in range(n)]
-        value=requests[i][0]
-        
-        # 알파벳이 두번 반복된 경우 크레인으로 외부에 연결되지 않은 컨테이너 꺼냄
-        if len(requests[i])>1:
-            for i in range(n):
-                for j in range(m):
-                    if storage[i][j]==value:
-                        storage[i][j]='x'
-                        
-        # 알파벳이 한번만 주어진 경우 외부와 연결된 컨테이너 끌어냄                
-        elif len(requests[i])==1:
-            # 위아래에서 탐색 시작
-            for start1 in range(n):
-                bfs(visited,start1,-1,pocket,value)
-                bfs(visited,start1,m,pocket,value)
+            x, y = queue.popleft()
 
-            # 좌우측에서 탐색 시작
-            for start2 in range(m):
-                bfs(visited,-1,start2,pocket,value)
-                bfs(visited,n,start2,pocket,value)
+            for direction in range(4):
+                nx = x + dx[direction]
+                ny = y + dy[direction]
 
-            # 접근 가능한 컨테이너 일거에 꺼냄
-            for x,y in pocket:
-                storage[x][y]='x'
-    
-    #남아있는 컨테이너 세기
-    for i in range(n):
-        for j in range(m):
-            if storage[i][j]!='x':
-                answer+=1
-                
+                if not (0 <= nx < n and 0 <= ny < m):
+                    continue
+
+                if visited[nx][ny]:
+                    continue
+
+                visited[nx][ny] = True
+
+                # 요청한 컨테이너를 외부에서 발견한 경우
+                # 바로 제거하지 않고 pocket에 저장한다.
+                if storage[nx][ny] == value:
+                    pocket.append((nx, ny))
+
+                # 이미 비어 있는 공간이라면
+                # 해당 공간을 통해 계속 이동한다.
+                elif storage[nx][ny] == 'x':
+                    queue.append((nx, ny))
+
+    for request in requests:
+        value = request[0]
+
+        # 크레인 요청:
+        # 외부 연결 여부와 관계없이 해당 종류를 전부 제거한다.
+        if len(request) > 1:
+            for i in range(1, n - 1):
+                for j in range(1, m - 1):
+                    if storage[i][j] == value:
+                        storage[i][j] = 'x'
+
+        # 지게차 요청:
+        # 외부의 빈 공간과 연결된 컨테이너만 제거한다.
+        else:
+            pocket = []
+            visited = [[False] * m for _ in range(n)]
+
+            # 바깥에 추가한 빈 공간 (0, 0)에서 한 번만 탐색한다.
+            bfs(visited, pocket, value)
+
+            # 이번 탐색에서 접근할 수 있었던 컨테이너를 한꺼번에 제거한다.
+            for x, y in pocket:
+                storage[x][y] = 'x'
+
+    answer = 0
+
+    # 바깥에 추가한 테두리를 제외하고
+    # 원래 창고 영역에 남아 있는 컨테이너만 센다.
+    for i in range(1, n - 1):
+        for j in range(1, m - 1):
+            if storage[i][j] != 'x':
+                answer += 1
+
     return answer
