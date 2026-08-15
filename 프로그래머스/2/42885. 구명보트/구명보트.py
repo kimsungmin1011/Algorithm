@@ -1,15 +1,25 @@
 def solution(people, limit):
+    answer = 0
     people.sort()
-    boat = 0
-    i = 0
-    j = len(people) - 1
+    n=len(people)
+    visited=[False for _ in range(n)]
+    last=n-1
     
-    while i <= j:
-        # 가벼운 사람 + 무거운 사람 한 보트에 태울 수 있는지 체크
-        if people[i] + people[j] <= limit:
-            i += 1
-        # 실패하면 무거운 사람만 우선 보트에 태움
-        j -= 1
-        boat += 1
-    
-    return boat
+    for i in range(n):
+        if visited[i]==True:
+            continue
+        light=people[i]
+        answer+=1
+        
+        if light>limit/2:
+            continue
+            
+        for j in range(last,i,-1):
+            heavy=people[j]
+            if light+heavy<=limit:
+                visited[j]=True
+                last=j-1
+                # print(light,heavy)
+                break
+                
+    return answer
