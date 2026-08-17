@@ -1,20 +1,17 @@
+from collections import Counter
+
 def solution(k, tangerine):
-    answer = 0
-    number = [0 for i in range(max(tangerine) + 1)]
-
-    for i in tangerine:
-        number[i] += 1
+    c_tangerine=Counter(tangerine)
+    answer=len(c_tangerine)
+    total=sum(c_tangerine.values())
+    c_tangerine=[[i,c_tangerine[i]] for i in c_tangerine]
+    c_tangerine.sort(key= lambda x: x[1])
     
-    number.sort(reverse=True)
-    
-    for i in number:
-        if k > 0:
-            k-=i
-            answer+=1
-        else:
-            break
-    
+    # 매 턴마다 
+    for ke,v in c_tangerine:
+        #현재 뽑는 크기의 귤의 개수가 최소이면서 이걸 뽑았을 때 남아있는 귤이 k개 이상이라면
+        if total-v>=k:
+            total-=v
+            answer-=1
+            
     return answer
-
-
-print(solution(6, [1, 3, 2, 5, 4, 5, 2, 3]))
