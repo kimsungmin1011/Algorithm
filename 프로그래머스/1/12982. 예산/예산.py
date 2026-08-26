@@ -1,7 +1,7 @@
 def solution(d, budget):
     answer = 0
     d.insert(0,0)
-    #dp[x][y] = x번째 부서에 예산 지원 여부에 따라 결정되는 총 지급예산
+    #dp[x] = x번째 부서에 예산 지원 여부에 따라 결정되는 총 지급예산
     dp=[0 for _ in range(len(d))]
     d.sort()
     
