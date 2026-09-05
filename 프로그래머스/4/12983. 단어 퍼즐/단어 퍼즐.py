@@ -12,8 +12,7 @@ def solution(strs, t):
             if i - k < 0:
                 break
             # t[i-k:i] 가 하나의 후보 조각
-            if t[i-k:i] in sset and dp[i-k] != INF:
-                if dp[i] > dp[i-k] + 1:
-                    dp[i] = dp[i-k] + 1
+            if t[i-k:i] in sset and dp[i] > dp[i-k] + 1:
+                dp[i] = dp[i-k] + 1
 
     return -1 if dp[n] == INF else dp[n]
