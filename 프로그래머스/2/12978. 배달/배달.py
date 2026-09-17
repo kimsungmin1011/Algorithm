@@ -1,6 +1,6 @@
 import heapq
 
-
+# 우선순위 큐 + BFS + 그리디 => 다익스트라
 def dijkstra(dist, adj):
     heap = []
     heapq.heappush(heap, [0, 1])  # [누적 비용, 마을 번호]
