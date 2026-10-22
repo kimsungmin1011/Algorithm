@@ -1,0 +1,5 @@
+SELECT PRODUCT_ID, PRODUCT_NAME, PRODUCT_CD, CATEGORY, PRICE -- 식품 정보 출력
+FROM FOOD_PRODUCT -- 식품 정보 테이블
+WHERE PRICE = (
+    SELECT MAX(PRICE) FROM FOOD_PRODUCT -- 가장 높은 가격 구하기
+); -- 가격이 최고 가격과 같은 식품만 선택
